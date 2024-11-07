@@ -1,0 +1,28 @@
+Availability Estimate
+
+The Multi-AZ, multi-region Amazon RDS MySQL database setup provides robust high availability and disaster recovery capabilities. Below are the achievable Recovery Time Objective (RTO) and Recovery Point Objective (RPO) for different outage scenarios:
+
+Minimum RTO for a Single AZ Outage
+
+In the event of an Availability Zone (AZ) outage within the primary region, Amazon RDS automatically performs a failover to a standby instance in another AZ. This process is managed by RDS and typically completes within 60 to 120 seconds. Therefore, the minimum RTO for a single AZ outage is approximately 1 to 2 minutes, during which the database may be momentarily unavailable.
+
+Minimum RTO for a Single Region Outage
+
+For a regional outage affecting the entire primary region, you would need to manually promote the cross-region read replica to a standalone primary instance. This involves initiating the promotion process and updating your application configurations to point to the new primary. The minimum RTO in this scenario is largely dependent on operational readiness and can range from 15 minutes to an hour. Automation scripts and pre-planned procedures can help minimize this time.
+
+Minimum RPO for a Single AZ Outage
+
+Because Multi-AZ deployments use synchronous replication between the primary and standby instances, there is no data loss during an AZ outage. The RPO is effectively zero, ensuring all committed transactions are preserved without any data loss.
+
+Minimum RPO for a Single Region Outage
+
+Cross-region read replicas use asynchronous replication, which may result in a replication lag. The RPO in the case of a single region outage is equal to this replication lag at the time of failure. Typically, the lag is minimal—often under a few seconds—but under heavy load or network issues, it could increase. Therefore, the minimum RPO for a single region outage is approximately a few seconds to a few minutes of potential data loss.
+
+Summary
+
+	•	Single AZ Outage:
+	•	Minimum RTO: ~1–2 minutes (automatic failover)
+	•	Minimum RPO: Zero (no data loss)
+	•	Single Region Outage:
+	•	Minimum RTO: ~15–60 minutes (manual promotion and reconfiguration)
+	•	Minimum RPO: A few seconds to a few minutes (dependent on replication lag)
