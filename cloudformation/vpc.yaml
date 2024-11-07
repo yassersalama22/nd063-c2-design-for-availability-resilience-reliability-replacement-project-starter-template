@@ -30,6 +30,17 @@ Parameters:
     Type: String
     Default: 10.1.21.0/24
 
+  DBUsername:
+    Type: String
+    NoEcho: true
+    Description: The database admin account username
+
+  DBPassword:
+    Type: String
+    NoEcho: true
+    MinLength: 8
+    Description: The database admin account password
+
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -212,6 +223,29 @@ Resources:
         - Key: Name
           Value: RDSSubnetGroup
 
+  MyDBInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      Engine: mysql
+      DBInstanceClass: db.t3.micro
+      MultiAZ: true
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      VPCSecurityGroups:
+        - !Ref DatabaseSecurityGroup
+      DBSubnetGroupName: !Ref RDSSubnetGroup
+      AllocatedStorage: 20
+      StorageType: gp2
+      DBName: udacity
+      DeletionProtection: false
+      PubliclyAccessible: false
+      BackupRetentionPeriod: 7
+      StorageEncrypted: true
+      CopyTagsToSnapshot: true
+      Tags:
+        - Key: Name
+          Value: PrimaryDB
+
 Outputs:
   VPC:
     Description: VPC ID
@@ -236,3 +270,7 @@ Outputs:
   RDSSubnetGroup:
     Description: RDS Private subnet group
     Value: !Ref RDSSubnetGroup
+
+  MyDBInstance:
+    Description: Primary DB server
+    Value: !Ref MyDBInstance
