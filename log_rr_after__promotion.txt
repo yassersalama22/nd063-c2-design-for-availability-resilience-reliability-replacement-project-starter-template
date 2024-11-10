@@ -1,0 +1,30 @@
+MySQL [udacity]> select * from students;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    9
+Current database: udacity
+
++----+---------+------+---------------------+
+| id | name    | age  | email               |
++----+---------+------+---------------------+
+|  1 | Alice   |   23 | alice@example.com   |
+|  2 | Bob     |   25 | bob@example.com     |
+|  3 | Charlie |   22 | charlie@example.com |
++----+---------+------+---------------------+
+3 rows in set (0.02 sec)
+
+MySQL [udacity]> INSERT INTO students (name, age, email) VALUES ('Alice', 24, 'adam@example.com');
+Query OK, 1 row affected (0.01 sec)
+
+MySQL [udacity]> select * from students;
++----+---------+------+---------------------+
+| id | name    | age  | email               |
++----+---------+------+---------------------+
+|  1 | Alice   |   23 | alice@example.com   |
+|  2 | Bob     |   25 | bob@example.com     |
+|  3 | Charlie |   22 | charlie@example.com |
+|  4 | Alice   |   24 | adam@example.com    |
++----+---------+------+---------------------+
+4 rows in set (0.00 sec)
+
+MySQL [udacity]> 
